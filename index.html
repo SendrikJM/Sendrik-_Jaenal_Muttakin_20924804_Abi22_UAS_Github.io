@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Toko Elektronik Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .cart-icon {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem;
+            border-radius: 50%;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 0;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu li a:hover {
+            color: #ffd700;
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #74b9ff 0%, #642aec 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: #00b894;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #00a085;
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #2d3436;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ddd, #f0f0f0);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2d3436;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00b894;
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            color: #636e72;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-add-cart {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .btn-add-cart:hover {
+            background: #5f3dc4;
+        }
+
+        /* Categories */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .about h2 {
+            color: #2d3436;
+            margin-bottom: 1.5rem;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            color: #636e72;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            background: #2d3436;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #0c48ec;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #b2bec3;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #636e72;
+            color: #b2bec3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(102, 126, 234, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 1rem;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-card {
+                padding: 1rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .categories {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">SJM STORE</a>
+            <a href="#" class="cart-icon">
+                🛒
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+        <nav>
+            <div class="nav-container">
+                <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#produk">Produk</a></li>
+                    <li><a href="#kategori">Kategori</a></li>
+                    <li><a href="#keranjang">Keranjang</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="beranda" class="hero">
+            <h1>Selamat Datang di SJM STORE</h1>
+            <p>Temukan gadget dan teknologi terbaru dengan harga terbaik</p>
+            <a href="#produk" class="btn-primary">Jelajahi Produk</a>
+        </section>
+
+        <section id="produk">
+            <h2>Produk Terbaru</h2>
+            <div class="product-grid">
+                <article class="product-card">
+                    <img src="Q.jpg" alt="Produk 1" class="product-image">
+                    <h3>Iphone 16 </h3>
+                    <div class="product-price">Rp 16.999.000</div>
+                    <p class="product-description">Sistem kamera iPhone 16 baru yang serbaguna mengambil foto yang menawan — dari jarak dekat atau jauh. Kamera Fusion 48 MP dua fungsi memungkinkan Anda mengambil gambar resolusi tinggi yang menakjubkan, atau memperbesar dengan Telefoto berkualitas optik 2x. Kamera Ultra Wide mengambil foto makro dari jarak sangat dekat, atau dengan lebih lebar untuk gambar yang lebih luas. Dengan semua ini, Anda seperti memiliki empat lensa dalam saku.</p>
+                    <button class="btn-add-cart" onclick="addToCart('Smartphone Pro Max', 12999000)">Tambah ke Keranjang</button>
+                </article>
+
+                <article class="product-card">
+                    <img src="Y.jpg" alt="Produk 1" class="product-image">
+                    <h3>Laptop ASUS ROG</h3>
+                    <div class="product-price">Rp 17.499.000</div>
+                    <p class="product-description">Featuring an Intel® Core™ Ultra 9 processor 285H and up to an NVIDIA® GeForce RTX™ 5090 Laptop GPU, this 16-inch machine can easily handle the latest games and cutting-edge creative software alike.</p>
+                    <button class="btn-add-cart" onclick="addToCart('Laptop Gaming Ultra', 25499000)">Tambah ke Keranjang</button>
+                </article>
+
+                <article class="product-card">
+                    <img src="H.jpg" alt="Produk 1" class="product-image">
+                    <h3>Xiomi Redmi 14T</h3>
+                    <div class="product-price">Rp 6.899.000</div>
+                    <p class="product-description">The Xiaomi 14T features:
+                        6.67-inch OLED display with 144Hz refresh rate. 
+                        2
+                        Mediatek Dimensity 8300 Ultra chipset. 
+                        2
+                        5500 mAh battery. 
+                        2
+                        512 GB storage and 16 GB RAM. 
+                        1
+                        Scratch/drop-resistant glass. 
+                        1
+                        IP68 dust/water resistance (up to 2m for 30 min).</p>
+                    <button class="btn-add-cart" onclick="addToCart('Headphone Wireless Premium', 2899000)">Tambah ke Keranjang</button>
+                </article>
+
+                <article class="product-card">
+                    <img src="K.jpg" alt="Produk 1" class="product-image">
+                    <h3>Smartwatch I8 Pro MAX</h3>
+                    <div class="product-price">Rp 2.999.000</div>
+                    <p class="product-description">Smartwatch dengan monitoring kesehatan lengkap, GPS, dan tahan air hingga 50 meter.</p>
+                    <button class="btn-add-cart" onclick="addToCart('Smartwatch Fitness Pro', 4299000)">Tambah ke Keranjang</button>
+                </article>
+
+                <article class="product-card">
+                    <img src="a7c.jpg" alt="Produk 1" class="product-image">
+                    <h3>Kamera Sony A7c</h3>
+                    <div class="product-price">Rp 28.999.000</div>
+                    <p class="product-description">Kamera mirrorless dengan video 4K, stabilisasi gambar, dan sistem autofocus cepat.</p>
+                    <button class="btn-add-cart" onclick="addToCart('Kamera Mirrorless 4K', 18999000)">Tambah ke Keranjang</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="kategori">
+            <h2>Kategori Produk</h2>
+            <div class="categories">
+                <div class="category-card">
+                    <div class="category-icon">📱</div>
+                    <h3>Smartphone</h3>
+                    <p>Koleksi smartphone terbaru</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">💻</div>
+                    <h3>Laptop & Komputer</h3>
+                    <p>Perangkat komputasi terdepan</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎧</div>
+                    <h3>Audio & Aksesoris</h3>
+                    <p>Perangkat audio berkualitas</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📷</div>
+                    <h3>Kamera & Fotografi</h3>
+                    <p>Peralatan fotografi profesional</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tentang" class="about">
+            <h2>Tentang Kami</h2>
+            <p>SJM STORE adalah toko elektronik online terpercaya yang menyediakan berbagai produk teknologi terbaru dengan kualitas terbaik. Kami berkomitmen memberikan pengalaman berbelanja yang mudah, aman, dan memuaskan untuk semua pelanggan. Dengan layanan pelanggan yang responsif dan pengiriman cepat, kami menjadi pilihan utama untuk kebutuhan teknologi Anda.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Tentang SJM STORE</h3>
+                <ul>
+                    <li><a href="#">Tentang Kami</a></li>
+                    <li><a href="#">Karir</a></li>
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Layanan Pelanggan</h3>
+                <ul>
+                    <li><a href="#">Pusat Bantuan</a></li>
+                    <li><a href="#">Cara Belanja</a></li>
+                    <li><a href="#">Pengiriman</a></li>
+                    <li><a href="#">Pengembalian</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <ul>
+                    <a href="https://wa.me/6288218891906" target="_blank">Chat dengan Kami di WhatsApp</a>
+                    <li>📍 Bandung,Jawa Barat</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Ikuti Kami</h3>
+                <ul>
+                    <li><a href="#">Sendrik Jaenal M</a></li>
+                    <p>Instagram : <a href="https://www.instagram.com/sjm_photography03?igsh=MWpuc2NnYXRydGVkYg==" target="_blank">SJM Photography</a></p>
+      <p><body>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2022 SJM STORE. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        let cartCount = 0;
+        let cartItems = [];
+
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        function addToCart(productName, price) {
+            cartCount++;
+            cartItems.push({name: productName, price: price});
+            document.querySelector('.cart-count').textContent = cartCount;
+            
+            // Simple notification
+            alert(`${productName} berhasil ditambahkan ke keranjang!`);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
